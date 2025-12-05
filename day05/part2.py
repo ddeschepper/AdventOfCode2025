@@ -4,6 +4,8 @@ input = (Path(__file__).parent / 'input.txt').read_text()
 
 ranges, _ = [part.splitlines() for part in input.split("\n\n")]
 ranges = [range.split("-") for range in ranges]
+
+# remove duplicate ranges
 ranges = set([(int(start), int(end)) for start, end in ranges])
 
 # remove fully overlapping ranges
