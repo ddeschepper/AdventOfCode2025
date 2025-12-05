@@ -11,10 +11,10 @@ ranges = set([(int(start), int(end)) for start, end in ranges])
 # remove fully overlapping ranges
 redundant_range_indexes = []
 for i, (start, end) in enumerate(ranges):
-    for j, (start_compare, end_compare) in enumerate(ranges):
+    for j, (start_other, end_other) in enumerate(ranges):
         if j == i:
             continue
-        if start >= start_compare and end <= end_compare:
+        if start >= start_other and end <= end_other:
             redundant_range_indexes.append(i)
             break
 
@@ -27,17 +27,17 @@ ranges = [
 
 # remove overlap from remaining ranges
 for i, (start, end) in enumerate(ranges):
-    new_start = start
-    new_end = end
-    for j, (start_compare, end_compare) in enumerate(ranges):
+    start_updated = start
+    updated_start = end
+    for j, (start_other, end_other) in enumerate(ranges):
         if j == i:
             continue
-        if end_compare >= new_end >= start_compare:
-            new_end = start_compare - 1
-        elif start_compare <= new_start <= end_compare:
-            new_start = end_compare + 1
+        if end_other >= updated_start >= start_other:
+            updated_start = start_other - 1
+        elif start_other <= start_updated <= end_other:
+            start_updated = end_other + 1
     
-    ranges[i] = (new_start, new_end)
+    ranges[i] = (start_updated, updated_start)
 
 answer = sum([
     len(range(start, end + 1))
